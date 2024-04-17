@@ -6,26 +6,27 @@
 <div class="container">
 <form action="" method="post"> 
 <?php wp_nonce_field('digital-school-nonce-action', 'digital-school-nonce'); ?>
+<input type="hidden" name="id" value="<?php isset($edit_student->id) ? esc_html_e($edit_student->id) : ''; ?>" />
   <div class="form-group">
     <label for="exampleFormControlInput1">Student Name</label>
-    <input type="text" class="form-control" name="studentname" placeholder="Student Name">
+    <input type="text" class="form-control" name="studentname" value="<?php isset($edit_student->studentname) ? esc_html_e($edit_student->studentname) : ''; ?>" placeholder="Student Name">
   </div>
   <div class="form-group">
     <label for="exampleFormControlInput2">Class Name</label>
-    <input type="text" class="form-control" name="classname" placeholder="Class Name">
+    <input type="text" class="form-control" name="classname" value="<?php isset($edit_student->classname) ? esc_html_e($edit_student->classname) : ''; ?>" placeholder="Class Name">
   </div>
 
   <div class="form-group">
     <label for="exampleFormControlInput3">Shift Name</label>
-    <input type="text" class="form-control" name="shift" placeholder="Shift Name">
+    <input type="text" class="form-control" name="shift" value="<?php isset($edit_student->shift) ? esc_html_e($edit_student->shift) : ''; ?>" placeholder="Shift Name">
   </div>
   <div class="form-group">
     <label for="exampleFormControlInput4">Roll number</label>
-    <input type="number" class="form-control" name="roll" placeholder="Roll Number">
+    <input type="number" class="form-control" name="roll" value="<?php isset($edit_student->roll) ? esc_html_e($edit_student->roll) : ''; ?>" placeholder="Roll Number">
   </div>
   <div class="form-group">
     <label for="exampleFormControlInput5">Year</label>
-    <input type="number" class="form-control" name="year" placeholder="Year">
+    <input type="number" class="form-control" name="year" value="<?php isset($edit_student->year) ? esc_html_e($edit_student->year) : ''; ?>" placeholder="Year">
   </div>
 
   <button type="submit" class="btn btn-primary" name="submit">Submit</button>
@@ -73,8 +74,9 @@
       <td><?php echo $show_student->roll; ?></td>
       <td><?php echo $show_student->year; ?></td>
       <td>
-      <a type="button" class="btn btn-primary">Edit</a>
+      <!-- <a type="button" class="btn btn-primary">Edit</a> -->
       <!-- <a href="#" class="btn btn-primary">Delete</a> -->
+      <a href="<?php echo admin_url('admin.php?page=digital-school&action=edit&id=' . $show_student->id ) ?>" onclick="return confirm('are you sure ?')" class="btn btn-danger">Edit</a>
       <a href="<?php echo admin_url('admin.php?page=digital-school&action=delete&id=' . $show_student->id ) ?>" onclick="return confirm('are you sure ?')" class="btn btn-danger">Delete</a>
       </td>
     </tr>

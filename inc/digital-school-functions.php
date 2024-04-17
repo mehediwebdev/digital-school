@@ -68,8 +68,21 @@ function digital_school_admin_page(){
 
     // Insert Students
     if( isset($_POST['digital-school-nonce']) && wp_verify_nonce($_POST['digital-school-nonce'], 'digital-school-nonce-action')){
-        digital_school_insert_students();
+        if( isset($_POST['id'])){
+        $id = intval($_GET['id']);
+        digital_school_update_students($id);
+        }
+        else
+        {
+         digital_school_insert_students();
+        }
+      
       }
+
+
+
+
+
       
  //if( isset($_POST['submit'])){
        // digital_school_insert_students();
@@ -84,6 +97,18 @@ function digital_school_admin_page(){
         digital_school_delete_students($id);
 
     }
+
+      // Edit Students
+
+      if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])){
+
+        $id = intval($_GET['id']);
+        $edit_student = digital_school_edit_students($id);
+
+  
+
+    }
+
 
     include_once DIGITAL_SCHOOL_PLUGIN_DIR . 'inc/digital-school-table.php';
 }
@@ -153,4 +178,44 @@ function digital_school_delete_students($id){
    // $id = $_GET['id'];
 
     $wpdb->delete( $table_name1, array( 'id' => $id ) );
+}
+
+
+function digital_school_edit_students($id){
+    global $wpdb;
+
+    $table_name1 = $wpdb->prefix . 'students';
+
+    $sql =  "SELECT * FROM  $table_name1  WHERE id = $id";
+
+    $items = $wpdb->get_row($sql);
+ 
+    return $items; 
+
+}
+
+function digital_school_update_students($id){
+    global $wpdb;
+   
+    $table_name1 = $wpdb->prefix . 'students';
+
+    $studentname = sanitize_text_field($_POST['studentname']);
+	$classname = sanitize_text_field($_POST['classname']);
+    $shift = sanitize_text_field($_POST['shift']);
+    $roll = sanitize_text_field($_POST['roll']);
+    $year = sanitize_text_field($_POST['year']);
+
+    $wpdb->update(
+        $table_name1,
+        array(
+        'studentname' => $studentname,
+        'classname' => $classname,
+        'shift' => $shift,
+        'roll' => $roll,
+        'year' => $year,
+        ),
+
+        array( 'id' => $id)
+      
+      );
 }
